@@ -1,20 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-
-Route::get('/test-api', function() {
-    return 'API routes are loaded!';
-});
+use Illuminate\Support\Facades\Route;
 
 
-// Public routes
+//routes
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
-// Protected routes (requires auth:sanctum)
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [UserController::class, 'logout']);
-    Route::get('/profile', [UserController::class, 'profile']);
-    Route::put('/profile', [UserController::class, 'update']);
+//userprofile
+Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'profile']);
+//update profile
+Route::middleware('auth:sanctum')->put('/user', [UserController::class, 'updateProfile']);
+//change password
+Route::middleware('auth:sanctum')->put('/user/change-password', [UserController::class, 'changePassword']);
+//logout
+Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
+
+//test route
+Route::get('/test-api', function() {
+    return 'API route is working!';
 });
